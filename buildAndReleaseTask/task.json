@@ -1,0 +1,77 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "1ed28650-ea93-45a3-8f29-d0400ad51ce9",
+    "name": "az-pipelines-2-sharepoint",
+    "friendlyName": "Upload files to SharePoint Online",
+    "description": "Upload files to SharePoint Online",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "halliba (github.com/halliba)",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 2
+    },
+    "instanceNameFormat": "Upload files to SharePoint: $(sourceFolder)",
+    "inputs": [
+        {
+            "name": "tenantId",
+            "type": "string",
+            "label": "AAD Tenant Id",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "clientId",
+            "type": "string",
+            "label": "AAD Client App Id",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "clientSecret",
+            "type": "string",
+            "label": "AAD Client Secret",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "driveId",
+            "type": "string",
+            "label": "SharePoint Online DriveId",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "targetFolder",
+            "type": "string",
+            "label": "Target Folder",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "sourceFolder",
+            "type": "filePath",
+            "label": "Source Folder",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "contents",
+            "type": "string",
+            "label": "Contents",
+            "defaultValue": "",
+            "required": true
+        }, {
+            "name": "conflictBehaviour",
+            "type": "pickList",
+            "label": "File Conflict Behaviour",
+            "defaultValue": "Fail",
+            "options": {
+                "fail": "Fail",
+                "replace": "Replace",
+                "rename": "Rename"
+            },
+            "required": true
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "dist/index.js"
+        }
+    }
+}

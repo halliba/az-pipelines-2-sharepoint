@@ -1,0 +1,33 @@
+{
+    "manifestVersion": 1,
+    "id": "az-pipelines-2-sharepoint",
+    "name": "Upload files to SharePoint Online",
+    "version": "0.1.2",
+    "publisher": "halliba",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Upload files to SharePoint Online",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "files": [
+        {
+            "path": "buildAndReleaseTask"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "az-pipelines-2-sharepoint",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "buildAndReleaseTask"
+            }
+        }
+    ]
+}
