@@ -1,0 +1,21 @@
+{
+  "name": "buildandreleasetask",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.2.1",
+    "@microsoft/microsoft-graph-types": "^1.28.0",
+    "azure-pipelines-task-lib": "^3.0.6-preview.0",
+    "glob": "^7.1.6",
+    "isomorphic-unfetch": "^3.1.0",
+    "node-fetch": "^3.0.0-beta.9"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/node": "^10.17.50",
+    "@types/q": "^1.5.4",
+    "typescript": "^4.1.3"
+  }
+}
