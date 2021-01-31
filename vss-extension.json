@@ -2,8 +2,9 @@
     "manifestVersion": 1,
     "id": "az-pipelines-2-sharepoint",
     "name": "Upload files to SharePoint Online",
-    "version": "0.1.2",
+    "version": "0.1.10",
     "publisher": "halliba",
+    "public": true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -13,9 +14,24 @@
     "categories": [
         "Azure Pipelines"
     ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "LICENSE"
+        }
+    },
+    "icons": {
+        "default": "images/icon_128.png"
+    },
     "files": [
         {
             "path": "buildAndReleaseTask"
+        },
+        {
+            "path": "images/icon_128.png",
+            "addressable": true
         }
     ],
     "contributions": [
@@ -29,5 +45,20 @@
                 "name": "buildAndReleaseTask"
             }
         }
-    ]
+    ],
+    "tags": [
+        "SharePoint"
+    ],
+    "links": {
+        "repository": {
+            "uri": "https://github.com/halliba/az-pipelines-2-sharepoint"
+        },
+        "issues": {
+            "uri": "https://github.com/halliba/az-pipelines-2-sharepoint/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/halliba/az-pipelines-2-sharepoint"
+    }
 }

@@ -10,56 +10,78 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 2
+        "Patch": 10
     },
+    "groups": [
+        {
+            "name": "auth",
+            "displayName": "Authentication",
+            "isExpanded": true
+        }
+    ],
     "instanceNameFormat": "Upload files to SharePoint: $(sourceFolder)",
     "inputs": [
         {
             "name": "tenantId",
             "type": "string",
-            "label": "AAD Tenant Id",
+            "label": "AzureAD tenant ID",
             "defaultValue": "",
-            "required": true
-        }, {
+            "helpMarkDown": "Enter the AzureAD **tenant ID** for the registered app. [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)",
+            "required": true,
+            "groupName": "auth"
+        },
+        {
             "name": "clientId",
             "type": "string",
-            "label": "AAD Client App Id",
+            "label": "AzureAD client ID",
             "defaultValue": "",
-            "required": true
-        }, {
+            "helpMarkDown": "Enter the AzureAD **client ID** for the registered app. [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)",
+            "required": true,
+            "groupName": "auth"
+        },
+        {
             "name": "clientSecret",
             "type": "string",
-            "label": "AAD Client Secret",
+            "label": "AzureAD client secret",
             "defaultValue": "",
-            "required": true
-        }, {
+            "helpMarkDown": "Enter the AzureAD **client secret** for the registered app. [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-client-secret)",
+            "required": true,
+            "groupName": "auth"
+        },
+        {
             "name": "driveId",
             "type": "string",
-            "label": "SharePoint Online DriveId",
+            "label": "SharePoint Online drive ID",
+            "helpMarkDown": "Enter the Microsoft Graph / SharePoint Online **drive ID**. [Microsoft Docs](https://docs.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0)",
             "defaultValue": "",
             "required": true
-        }, {
+        },
+        {
             "name": "targetFolder",
             "type": "string",
-            "label": "Target Folder",
+            "label": "Target folder",
+            "helpMarkDown": "Enter the target folder path, relative to the drive root.",
             "defaultValue": "",
             "required": true
-        }, {
+        },
+        {
             "name": "sourceFolder",
             "type": "filePath",
-            "label": "Source Folder",
+            "label": "Source folder",
             "defaultValue": "",
             "required": true
-        }, {
+        },
+        {
             "name": "contents",
             "type": "string",
             "label": "Contents",
             "defaultValue": "",
             "required": true
-        }, {
+        },
+        {
             "name": "conflictBehaviour",
             "type": "pickList",
-            "label": "File Conflict Behaviour",
+            "label": "File conflict behaviour",
             "defaultValue": "Fail",
             "options": {
                 "fail": "Fail",
