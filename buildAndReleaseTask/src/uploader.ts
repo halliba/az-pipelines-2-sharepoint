@@ -3,6 +3,8 @@ import * as tl from 'azure-pipelines-task-lib/task';
 import { DriveItem } from "@microsoft/microsoft-graph-types";
 import fs from 'fs';
 import fetch from 'node-fetch';
+import { printProgress } from "./utils";
+import { ConflictBehaviour } from "./task-inputs";
 
 interface AadAuthToken {
     token_type: "Bearer"
@@ -18,7 +20,7 @@ interface UploaderAuthOptions {
 
 interface UploaderOptions {
     auth: UploaderAuthOptions;
-    conflictBehaviour: "fail" | "replace" | "rename";
+    conflictBehaviour: ConflictBehaviour;
 }
 
 class Uploader {
@@ -81,22 +83,15 @@ class Uploader {
     }
 
     static constructFileUrl(driveId: string, fileName: string, path: string = '/'): string {
-        fileName = fileName.trim();
-        path = path.trim();
-        if (path === "") {
-            path = "/";
-        }
-        if (path[0] !== "/") {
-            path = `/${path}`;
-        }
-        if (path[path.length - 1] !== "/") {
-            path = `${path}/`;
-        }
-        
-        return `/drives/${driveId}/root:${path
-            .split("/")
+        let pathComponents = path.split("/")
+            .concat(fileName.split("/"));
+
+        let encodedPath = pathComponents
             .map((p) => encodeURIComponent(p))
-            .join("/")}${encodeURIComponent(fileName)}`;
+            .filter((p) => p !== '')
+            .join("/");
+
+        return `/drives/${driveId}/root:/${encodedPath}`;
     }
 
     async uploadFileAsync(localFilePath: string, driveId: string, remotePath: string, remoteFileName: string): Promise<DriveItem | null> {
@@ -138,6 +133,36 @@ class Uploader {
         }
 
         return uploadedFile;
+    }
+
+    async cleanFolderAsync(driveId: string, remotePath: string): Promise<void> {
+        console.log(`Cleaning target folder ${remotePath}'.`);
+
+        const client = await this.getClientAsync();
+
+        const folderUrl = Uploader.constructFileUrl(driveId, '', remotePath);
+
+        let result: any;
+        try {
+            result = await client.api(`${folderUrl}:/children?$select=name,id,folder`)
+                .get();
+        } catch (error) {
+            if (error.statusCode !== 404) {
+                throw error;
+            }
+        }
+
+        if(!result || !result.value)
+            return;
+
+        const items = result.value as DriveItem[];
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            printProgress(items.length, i, `Deleting '${(!!item.folder ? item.name + '/' : item.name)}'`);
+
+            const itemUrl = `/drives/${driveId}/items/${item.id}`;
+            await client.api(itemUrl).delete();
+        }
     }
 }
 

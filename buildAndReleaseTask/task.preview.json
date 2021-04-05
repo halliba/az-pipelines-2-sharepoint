@@ -1,22 +1,27 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
-    "id": "1ed28650-ea93-45a3-8f29-d0400ad51ce9",
-    "name": "az-pipelines-2-sharepoint",
-    "friendlyName": "Upload files to SharePoint Online",
-    "description": "Upload files to SharePoint Online",
+    "id": "7dbcfe61-715f-4405-aefc-4398b046783d",
+    "name": "az-pipelines-2-sharepoint-preview",
+    "friendlyName": "Upload files to SharePoint Online (Preview)",
+    "description": "Upload files to SharePoint Online (Preview)",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "halliba (github.com/halliba)",
     "version": {
         "Major": 0,
-        "Minor": 1,
-        "Patch": 10
+        "Minor": 2,
+        "Patch": 0
     },
     "groups": [
         {
             "name": "auth",
             "displayName": "Authentication",
             "isExpanded": true
+        },
+        {
+            "name": "advanced",
+            "displayName": "Advanced",
+            "isExpanded": false
         }
     ],
     "instanceNameFormat": "Upload files to SharePoint: $(sourceFolder)",
@@ -62,14 +67,15 @@
             "label": "Target folder",
             "helpMarkDown": "Enter the target folder path, relative to the drive root.",
             "defaultValue": "",
-            "required": true
+            "required": false
         },
         {
             "name": "sourceFolder",
             "type": "filePath",
             "label": "Source folder",
+            "helpMarkDown": "The source folder that the copy pattern(s) will be run from. Empty is the root of the repo. Use variables if files are not in the repo. Example: $(agent.builddirectory)",
             "defaultValue": "",
-            "required": true
+            "required": false
         },
         {
             "name": "contents",
@@ -82,13 +88,32 @@
             "name": "conflictBehaviour",
             "type": "pickList",
             "label": "File conflict behaviour",
-            "defaultValue": "Fail",
+            "defaultValue": "fail",
             "options": {
                 "fail": "Fail",
                 "replace": "Replace",
                 "rename": "Rename"
             },
-            "required": true
+            "required": true,
+            "groupName": "advanced"
+        },
+        {
+            "name": "cleanTargetFolder",
+            "type": "boolean",
+            "label": "Clean Target Folder",
+            "helpMarkDown": "Delete all existing files in target folder before copy.",
+            "defaultValue": false,
+            "required": true,
+            "groupName": "advanced"
+        },
+        {
+            "name": "flattenFolders",
+            "type": "boolean",
+            "label": "Flatten Folders",
+            "helpMarkDown": "Flatten the folder structure and copy all files into the specified target folder.",
+            "defaultValue": false,
+            "required": true,
+            "groupName": "advanced"
         }
     ],
     "execution": {
