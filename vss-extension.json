@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "az-pipelines-2-sharepoint",
     "name": "Upload files to SharePoint Online",
-    "version": "0.1.10",
+    "version": "0.2.0",
     "publisher": "halliba",
     "public": true,
     "targets": [
@@ -27,7 +27,22 @@
     },
     "files": [
         {
-            "path": "buildAndReleaseTask"
+            "path": "buildAndReleaseTask/dist/"
+        },
+        {
+            "path": "buildAndReleaseTask/node_modules/"
+        },
+        {
+            "path": "buildAndReleaseTask/task.json"
+        },
+        {
+            "path": "buildAndReleaseTask/package.json"
+        },
+        {
+            "path": "buildAndReleaseTask/package-lock.json"
+        },
+        {
+            "path": "buildAndReleaseTask/icon.png"
         },
         {
             "path": "images/icon_128.png",

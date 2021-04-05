@@ -2,7 +2,9 @@
 
 ![Logo](./images/icon_128.png)
 
-**az-pipelines-2-sharepoint** is an Azure DevOps extensions to upload file or build artefacts to a SharePoint Online library.
+![Version](https://img.shields.io/visual-studio-marketplace/v/halliba.az-pipelines-2-sharepoint?label=Visual%20Studio%20Marketplace&style=flat-square)
+
+**az-pipelines-2-sharepoint** is an Azure DevOps extensions to upload file or build artefacts to a SharePoint Online library via Microsoft Graph.
 
 *This extension can not be used with on-premise SharePoint installations.*
 
