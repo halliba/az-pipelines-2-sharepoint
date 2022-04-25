@@ -4,13 +4,13 @@
     "name": "az-pipelines-2-sharepoint-preview",
     "friendlyName": "Upload files to SharePoint Online (Preview)",
     "description": "Upload files to SharePoint Online (Preview)",
-    "helpMarkDown": "",
+    "helpMarkDown": "[github.com/halliba/az-pipelines-2-sharepoint](https://github.com/halliba/az-pipelines-2-sharepoint)",
     "category": "Utility",
     "author": "halliba (github.com/halliba)",
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 0
+        "Patch": 1
     },
     "groups": [
         {
