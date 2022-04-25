@@ -39,7 +39,7 @@
             "path": "buildAndReleaseTask/package.json"
         },
         {
-            "path": "buildAndReleaseTask/package-lock.json"
+            "path": "buildAndReleaseTask/yarn.lock"
         },
         {
             "path": "buildAndReleaseTask/icon.png"
