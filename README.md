@@ -13,19 +13,24 @@
 
 **Azure DevOps Server**: Visit the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=halliba.az-pipelines-2-sharepoint) and click *install*. Then choose *Download* and install it via the Extension page on your local Azure DevOps Server.
 
-## Usage
-1. Register a new application in your Azure AD tenant:
-    - Choose any name.
-    - Supported Account types: *Accounts in this organizational directory only.*
-    - No Redirect URL is needed.
-    - Add a client secret as authentication method.
-    - Add the API permissions: `Microsoft Graph` -> `Application permissions` -> `Files` -> `Files.ReadWrite.All`  
-    (AFAIK you can not use a Service Principal to grant access to a single Drive only. If you know how to, please let me know.)
-2. Find your target drive ID: https://docs.microsoft.com/en-us/graph/api/drive-get
-3. Add a new `Upload files to SharePoint Online` task to your build pipeline.
-4. Fill in all required parameters.
+## App registration in Azure AD
+Register a new application in your Azure AD tenant: (For more info, refer to the [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app))
+- Choose any name.
+- Supported Account types: *Accounts in this organizational directory only.*
+- No Redirect URL is needed.
+- Add a client secret as authentication method.
+- For **testing** or small environments, add the API permissions: `Microsoft Graph` -> `Application permissions` -> `Files` -> `Files.ReadWrite.All` (The extension will have full access to all SharePoint drives!)
+- For **production** environments, add the API permissiones: `Microsoft Graph` -> `Application permissions` -> `Sites` -> `Sites.Selected`.  
+    Refer to these blog posts, on how to grant the extension access to the required sites.  
+    [Use Sites.Selected Permission with FullControl rather than Write or Read
+](https://www.leonarmston.com/2022/02/use-sites-selected-permission-with-fullcontrol-rather-than-write-or-read/)  
+[Testing out the new Microsoft Graph SharePoint (specific site collection) app permissions with PnP PowerShell
+](https://www.leonarmston.com/2021/03/testing-out-the-new-microsoft-graph-sharepoint-specific-site-collection-app-permissions-with-pnp-powershell/)
+
+## Setup Azure DevOps
+1. Find your target drive ID: https://docs.microsoft.com/en-us/graph/api/drive-get
+2. Add a new `Upload files to SharePoint Online` task to your build pipeline.
+3. Fill in all required parameters.
 
 ## Known Issues
-- Due to a limitation of the Microsoft Graph File endpoint you can not upload files with 0-byte size. Those files will be skipped and a warning message is shown.
-- AFAIK you can not use a Service Principal to grant access to a single Drive only. If you know how to, please let me know.  
-**The registered app has access to all SharePoint drives - if this is a problem, you should not use this extension!**
+- Due to a limitation (or bug?) of the Microsoft Graph File endpoint you can not upload files with 0-byte size. Those files will be skipped and a warning message is shown.
