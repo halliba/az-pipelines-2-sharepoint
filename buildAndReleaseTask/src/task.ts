@@ -1,8 +1,8 @@
-import { getBoolInput, getInput, getInputRequired, setResult, TaskResult } from 'azure-pipelines-task-lib/task';
+import { TaskResult } from 'azure-pipelines-task-lib/task';
 import Uploader from './uploader';
 import glob from 'glob';
 import path from 'path';
-import { TaskInputNames, TaskInputs, ConflictBehaviour } from './task-inputs';
+import { TaskInputs, readInputs } from './task-inputs';
 import { validateDrive } from './drive-utils';
 import { azPipelinesLogger, ILogger, logProgress } from './logger';
 
@@ -23,21 +23,6 @@ function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<st
             });
         }
     );
-}
-
-function readInputs(): TaskInputs {
-    return {
-        tenantId: getInputRequired(TaskInputNames.tenantId),
-        clientId: getInputRequired(TaskInputNames.clientId)!,
-        clientSecret: getInputRequired(TaskInputNames.clientSecret),
-        driveId: getInputRequired(TaskInputNames.driveId),
-        targetFolder: getInput(TaskInputNames.targetFolder, false) ?? '',
-        sourceFolder: getInput(TaskInputNames.sourceFolder, false) ?? '',
-        contents: getInputRequired(TaskInputNames.contents),
-        conflictBehaviour: getInputRequired(TaskInputNames.conflictBehaviour) as ConflictBehaviour,
-        cleanTargetFolder: getBoolInput(TaskInputNames.cleanTargetFolder, true),
-        flattenFolders: getBoolInput(TaskInputNames.flattenFolders, true)
-    };
 }
 
 async function processFilesAsync(uploader: Uploader, files: string[], inputs: TaskInputs, logger: ILogger) {
@@ -68,12 +53,20 @@ async function processFilesAsync(uploader: Uploader, files: string[], inputs: Ta
     }
 }
 
-async function runTaskAsync(): Promise<void> {
-    const logger = azPipelinesLogger();
-    const inputs = readInputs();
+async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
+    result: TaskResult;
+    message?: string;
+}> {
+
+    if(!logger) logger = azPipelinesLogger();
+    if(!inputs) inputs = readInputs();
 
     const files = await getSourceFilesAsync(inputs.sourceFolder, inputs.contents);
     logger.info(`Found ${files.length} files in '${inputs.sourceFolder}'.`);
+
+    if(inputs.failOnEmptySource && files.length === 0) {
+        return { result: TaskResult.Failed, message: 'No files found in source folder.' };
+    }
 
     const uploader = new Uploader({
         auth: {
@@ -86,8 +79,7 @@ async function runTaskAsync(): Promise<void> {
 
     const validate = await validateDrive(inputs.driveId, await uploader.getClientAsync(), logger);
     if(!validate.valid) {
-        setResult(TaskResult.Failed, 'Invalid driveId');
-        return;
+        return { result: TaskResult.Failed, message: 'Invalid driveId' };
     }
 
     inputs.driveId = validate.driveId;
@@ -97,8 +89,8 @@ async function runTaskAsync(): Promise<void> {
     }
 
     await processFilesAsync(uploader, files, inputs, logger);
+    return { result: TaskResult.Succeeded };
 }
-
 
 export {
     runTaskAsync

@@ -5,7 +5,8 @@ import { runTaskAsync } from './task';
 
 async function run() {
     try {
-        await runTaskAsync();
+        var result = await runTaskAsync();
+        tl.setResult(result.result, result.message ?? "");
     }
     catch (err: unknown) {
         console.error(err);

@@ -12,6 +12,12 @@ const noLogger = (): ILogger => ({
     warning: () => { }
 });
 
+const consoleLogger = (): ILogger => ({
+    info: console.log,
+    error: console.error,
+    warning: console.warn
+});
+
 const azPipelinesLogger = (): ILogger => ({
     info: (s) => console.log(s),
     error: (s) => error(s),
@@ -31,5 +37,6 @@ export type {
 export {
     noLogger,
     azPipelinesLogger,
+    consoleLogger,
     logProgress
 };
