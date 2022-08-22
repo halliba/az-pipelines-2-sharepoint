@@ -1,11 +1,3 @@
-**/node_modules
-**/dist
-
-buildAndReleaseTask/task.json
-buildAndReleaseTask/.yarn/
-buildAndReleaseTask/.pnp.*
-!buildAndReleaseTask/.yarn/release
-
 **/*.log
 **/*.vsix
 **/.env

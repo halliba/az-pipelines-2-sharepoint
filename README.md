@@ -2,7 +2,7 @@
 
 ![Logo](./images/icon_128.png)
 
-![Version](https://img.shields.io/visual-studio-marketplace/v/halliba.az-pipelines-2-sharepoint?label=Visual%20Studio%20Marketplace&style=flat-square)
+[![Version](https://img.shields.io/visual-studio-marketplace/v/halliba.az-pipelines-2-sharepoint?label=Visual%20Studio%20Marketplace&style=flat-square)](https://marketplace.visualstudio.com/items?itemName=halliba.az-pipelines-2-sharepoint)
 
 **az-pipelines-2-sharepoint** is an Azure DevOps extensions to upload file or build artefacts to a SharePoint Online library via Microsoft Graph.
 

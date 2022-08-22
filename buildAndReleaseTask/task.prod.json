@@ -118,7 +118,7 @@
     ],
     "execution": {
         "Node10": {
-            "target": "dist/index.js"
+            "target": "dist/src/index.js"
         }
     }
 }

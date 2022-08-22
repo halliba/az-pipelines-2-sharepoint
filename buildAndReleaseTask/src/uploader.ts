@@ -1,10 +1,9 @@
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
-import * as tl from 'azure-pipelines-task-lib/task';
 import { DriveItem } from "@microsoft/microsoft-graph-types";
 import fs from 'fs';
 import fetch from 'cross-fetch';
-import { printProgress } from "./utils";
 import { ConflictBehaviour } from "./task-inputs";
+import { ILogger, logProgress } from './logger';
 
 interface AadAuthToken {
     token_type: "Bearer"
@@ -30,9 +29,15 @@ class Uploader {
 
     private _options: UploaderOptions;
     private _client?: MicrosoftGraph.Client;
+    private _logger: ILogger;
 
-    constructor(options: UploaderOptions) {
+    constructor(options: UploaderOptions, logger: ILogger) {
         this._options = options;
+        this._logger = logger;
+    }
+
+    setConflictBehaviour(conflictBehaviour: ConflictBehaviour): void {
+        this._options.conflictBehaviour = conflictBehaviour;
     }
 
     static getAccessTokenEndpoint(tenantId: string): string {
@@ -97,7 +102,6 @@ class Uploader {
     async uploadFileAsync(localFilePath: string, driveId: string, remotePath: string, remoteFileName: string): Promise<MicrosoftGraph.UploadResult | null> {
         const client = await this.getClientAsync();
 
-
         const requestUrl = Uploader.constructFileUrl(driveId, remoteFileName, remotePath)
             + ':/createUploadSession';
 
@@ -106,8 +110,7 @@ class Uploader {
 
         if (fileSize === 0) {
             const byte0Msg = `SharePoint Online does not support 0-Byte files: '${localFilePath}'.`;
-            tl.warning(byte0Msg)
-            console.warn(byte0Msg);
+            this._logger.warning(byte0Msg);
 
             return null;
         }
@@ -132,7 +135,7 @@ class Uploader {
     }
 
     async cleanFolderAsync(driveId: string, remotePath: string): Promise<void> {
-        console.log(`Cleaning target folder ${remotePath}'.`);
+        this._logger.info(`Cleaning target folder '${remotePath}'.`);
 
         const client = await this.getClientAsync();
 
@@ -154,7 +157,7 @@ class Uploader {
         const items = result.value as DriveItem[];
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            printProgress(items.length, i, `Deleting '${(!!item.folder ? item.name + '/' : item.name)}'`);
+            logProgress(this._logger, items.length, i, `Deleting '${(!!item.folder ? item.name + '/' : item.name)}'`);
 
             const itemUrl = `/drives/${driveId}/items/${item.id}`;
             await client.api(itemUrl).delete();

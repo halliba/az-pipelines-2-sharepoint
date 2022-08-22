@@ -1,0 +1,10 @@
+node_modules/
+dist/
+
+task.json
+
+.yarn/
+!.yarn/releases/
+
+test/**/*.js
+test/**/*.js.map
