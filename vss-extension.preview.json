@@ -1,6 +1,0 @@
-{
-    "manifestVersion": 1,
-    "id": "az-pipelines-2-sharepoint-preview",
-    "name": "Upload files to SharePoint Online (Preview)",
-    "version": "0.2.1"
-}

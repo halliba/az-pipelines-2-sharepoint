@@ -1,9 +1,9 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
-    "id": "7dbcfe61-715f-4405-aefc-4398b046783d",
-    "name": "az-pipelines-2-sharepoint-preview",
-    "friendlyName": "Upload files to SharePoint Online (Preview)",
-    "description": "Upload files to SharePoint Online (Preview)",
+    "id": "4cc84bf6-d00a-4446-8ea2-50c531c28bde",
+    "name": "az-pipelines-2-sharepoint-dev",
+    "friendlyName": "Upload files to SharePoint Online [Dev]",
+    "description": "Upload files to SharePoint Online [Dev]",
     "helpMarkDown": "[github.com/halliba/az-pipelines-2-sharepoint](https://github.com/halliba/az-pipelines-2-sharepoint)",
     "category": "Utility",
     "author": "halliba (github.com/halliba)",
