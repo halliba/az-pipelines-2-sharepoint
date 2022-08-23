@@ -10,7 +10,7 @@
     "version": {
         "Major": 0,
         "Minor": 3,
-        "Patch": 1
+        "Patch": 2
     },
     "groups": [
         {
@@ -56,8 +56,8 @@
         {
             "name": "driveId",
             "type": "string",
-            "label": "SharePoint Online drive ID",
-            "helpMarkDown": "Enter the Microsoft Graph / SharePoint Online **drive ID**. [Microsoft Docs](https://docs.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0)",
+            "label": "SharePoint Online drive ID or URL",
+            "helpMarkDown": "Enter the Microsoft Graph **drive ID** or the **full URL** to the SharePoint document library. [Microsoft Docs](https://docs.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0) Examples:\n DriveId: `b!X22Adlah_hsw...`\nURL: `https://contoso.sharepoint.com/sites/project-x/Shared%20Documents`",
             "defaultValue": "",
             "required": true
         },
@@ -81,6 +81,7 @@
             "name": "contents",
             "type": "string",
             "label": "Contents",
+            "helpMarkDown": "The contents that will be copied to the target folder. Wildcards and glob patterns are suppored. Examples:\n `/**/*.txt` to copy all txt files recursively\n`**` to copy all files recursively",
             "defaultValue": "",
             "required": true
         },
@@ -111,6 +112,15 @@
             "type": "boolean",
             "label": "Flatten Folders",
             "helpMarkDown": "Flatten the folder structure and copy all files into the specified target folder.",
+            "defaultValue": false,
+            "required": true,
+            "groupName": "advanced"
+        },
+        {
+            "name": "failOnEmptySource",
+            "type": "boolean",
+            "label": "Fail if no files found to copy",
+            "helpMarkDown": "Fail if no matching files to be copied are found under the source folder.",
             "defaultValue": false,
             "required": true,
             "groupName": "advanced"
