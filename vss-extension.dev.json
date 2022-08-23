@@ -2,7 +2,6 @@
     "manifestVersion": 1,
     "id": "az-pipelines-2-sharepoint-dev",
     "name": "Upload files to SharePoint Online [Dev]",
-    "version": "0.3.2",
     "public": false,
     "galleryFlags": [
         "Preview"
