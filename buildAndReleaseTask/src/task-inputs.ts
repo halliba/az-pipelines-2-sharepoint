@@ -42,7 +42,7 @@ function readInputs(): TaskInputs {
         conflictBehaviour: getInputRequired(TaskInputNames.conflictBehaviour) as ConflictBehaviour,
         cleanTargetFolder: getBoolInput(TaskInputNames.cleanTargetFolder, true),
         flattenFolders: getBoolInput(TaskInputNames.flattenFolders, true),
-        failOnEmptySource: getBoolInput(TaskInputNames.failOnEmptySource, true)
+        failOnEmptySource: getBoolInput(TaskInputNames.failOnEmptySource, false) ?? false
     };
 }
 

@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "az-pipelines-2-sharepoint",
     "name": "Upload files to SharePoint Online",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "publisher": "halliba",
     "public": true,
     "targets": [
