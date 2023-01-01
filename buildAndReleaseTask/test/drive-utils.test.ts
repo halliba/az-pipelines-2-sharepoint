@@ -2,12 +2,12 @@ import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
 import * as assert from "assert";
 import { getDriveFromUrl, validateDrive } from "../src/drive-utils";
 import 'cross-fetch/polyfill';
-import { noLogger } from "../src/logger";
+import { consoleLogger, noLogger } from "../src/logger";
 import { getInput, getInputRequired } from "azure-pipelines-task-lib/task";
 import { getTestClientAsync, TestInputNames } from "./test-helpers";
 
 describe("drive-utils", () => {
-    const logger = noLogger();
+    const logger = consoleLogger();
     const config = {
         rootUrl: getInput(TestInputNames.rootUrl, true) as string
     };
@@ -23,28 +23,26 @@ describe("drive-utils", () => {
     describe("validateDrive", () => {
         it("Should throw on missing driveId", async () => {
             const client = (null as unknown) as MicrosoftGraph.Client;
-            await assert.rejects(async () => await validateDrive(((null as unknown) as string),client, logger));
-            await assert.rejects(async () => await validateDrive("", client, logger));
+            await assert.rejects(validateDrive(((null as unknown) as string),client, logger));
+            await assert.rejects(validateDrive("", client, logger));
         });
 
         it("should reject invalid drive id", async () => {
-            var result = await validateDrive("xx", client, logger);
-            assert.strictEqual(result.valid, false);
+            await assert.rejects(validateDrive("xx",client, logger));
         });
         
         it("should reject not existing drive id", async () => {
             const id = "b!bp-fL257902xrWQ7azGge8Bbz1xT-wJAvjIIOWk_yHaGSmPlbO_fR5IrErDrWoVl";
-            var result = await validateDrive(id, client, logger);
-            assert.strictEqual(result.valid, false);
+            await assert.rejects(validateDrive(id,client, logger));
         });
     });
     
     describe("getDriveFromUrl", () => {
         it("Should throw on missing or malformed url", async () => {
             const client = (null as unknown) as MicrosoftGraph.Client;
-            await assert.rejects(async () => await getDriveFromUrl(((null as unknown) as string),client));
-            await assert.rejects(async () => await getDriveFromUrl("", client));
-            await assert.rejects(async () => await getDriveFromUrl("http://someurl", client));
+            await assert.rejects(getDriveFromUrl(((null as unknown) as string),client));
+            await assert.rejects(getDriveFromUrl("", client));
+            await assert.rejects(getDriveFromUrl("http://someurl", client));
         });
 
         const cases = [
@@ -76,10 +74,9 @@ describe("drive-utils", () => {
             });
         });
         
-        it(`Should return null for not existing drive`, async () => {
+        it(`Should throw for not existing drive`, async () => {
             const url = `${config.rootUrl}/sites/site-that-does-not-exist/Shared%20Documents`; 
-            const drive = await getDriveFromUrl(url, client);
-            assert.strictEqual(drive, null);
+            assert.rejects(getDriveFromUrl(url, client));
         });
     });
 });

@@ -4,7 +4,7 @@ import glob from 'glob';
 import path from 'path';
 import { TaskInputs, readInputs } from './task-inputs';
 import { validateDrive } from './drive-utils';
-import { azPipelinesLogger, ILogger, logProgress } from './logger';
+import { consoleLogger, ILogger, logProgress } from './logger';
 
 function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<string[]> {
     return new Promise<string[]>(
@@ -35,6 +35,7 @@ async function processFilesAsync(uploader: Uploader, files: string[], inputs: Ta
         const localRelativeFilePath = files[i];
 
         const localAbsoluteFilePath = path.join(inputs.sourceFolder, localRelativeFilePath);
+        const test = path.join('', localRelativeFilePath);
 
         let remoteRelativePath: string;
         if (inputs.flattenFolders) {
@@ -58,7 +59,7 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
     message?: string;
 }> {
 
-    if(!logger) logger = azPipelinesLogger();
+    if(!logger) logger = consoleLogger();
     if(!inputs) inputs = readInputs();
 
     const files = await getSourceFilesAsync(inputs.sourceFolder, inputs.contents);
@@ -77,12 +78,13 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
         conflictBehaviour: inputs.conflictBehaviour
     }, logger);
 
-    const validate = await validateDrive(inputs.driveId, await uploader.getClientAsync(), logger);
-    if(!validate.valid) {
-        return { result: TaskResult.Failed, message: 'Invalid driveId' };
+    try {
+        const driveId = await validateDrive(inputs.driveId, await uploader.getClientAsync(), logger);
+        inputs.driveId = driveId;
+    } catch(error) {
+        logger.error((typeof error == "string") ? error : JSON.stringify(error));
+        return { result: TaskResult.Failed, message: 'Could not validate drive id.' };
     }
-
-    inputs.driveId = validate.driveId;
 
     if (inputs.cleanTargetFolder) {
         await uploader.cleanFolderAsync(inputs.driveId, inputs.targetFolder);

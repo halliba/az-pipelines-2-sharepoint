@@ -16,41 +16,27 @@ interface ODataResult<T> {
  *         valid: true if the driveId is valid, false otherwise
  *         drive: the driveId of the found drive. (Important if the parameter was the full url)
  */
-async function validateDrive(driveId: string, client: MicrosoftGraph.Client, logger: ILogger): Promise<{
-    valid: boolean;
-    driveId: string;
-}> {
+async function validateDrive(driveId: string, client: MicrosoftGraph.Client, logger: ILogger): Promise<string> {
     if(!driveId) {
         throw new Error('Parameter driveId is required.');
     }
 
     logger.info(`Validating drive id / url: '${driveId}'.`);
 
-    let drive: Drive | null;
+    let drive: Drive;
     if(driveId.startsWith('https://')) {
         drive = await getDriveFromUrl(driveId, client);
     } else {
-        try {
-            drive = await client.api(`/drives/${driveId}?$select=id,name`)
+        drive = await client.api(`/drives/${driveId}?$select=id,name`)
                 .get();
-        } catch(error) {
-            drive = null;
-        }
     }
 
-    if(!drive?.id)  {
-        logger.error("Could not find drive.");
-        return {
-            valid: false,
-            driveId: driveId
-        }
+    if(!drive?.id) {
+        throw new Error(`Could not find drive. API returned: ${JSON.stringify(drive)}.`);
     }
 
     logger.info(`Found drive '${drive?.name}'.`);
-    return  {
-        valid: true,
-        driveId: drive?.id as string
-    };
+    return drive.id;
 }
 
 /**
@@ -59,7 +45,7 @@ async function validateDrive(driveId: string, client: MicrosoftGraph.Client, log
  * @param client The Microsoft Graph client
  * @returns Returns the found drive object or null if not found.
  */
-async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Promise<Drive | null> {
+async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Promise<Drive> {
     if(!url) throw new Error('Url is required');
     if(!client) throw new Error('Client is required');
 
@@ -85,15 +71,15 @@ async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Prom
     }
 
     let drives: ODataResult<Drive[]>;
-    try {
-         drives = await client.api(`sites/${encodedUrl}/drives?$select=id,name,webUrl`)
-            .get();
-    } catch(error) {
-        return null;
-    }
-    
+    drives = await client.api(`sites/${encodedUrl}/drives?$select=id,name,webUrl`)
+    .get();
+
     const drive = drives.value.find(d => d.webUrl?.toLowerCase() == url.toLowerCase());
-    return drive ?? null;
+    if(!drive) {
+        throw new Error("Could not find drive in site. Found drives: " + JSON.stringify(drives.value));
+    }
+
+    return drive;
 }
 
 export {
