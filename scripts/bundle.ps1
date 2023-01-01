@@ -11,7 +11,7 @@ $ErrorActionPreference = "Stop";
 $vMajor = $Version.Split('.')[0];
 $vMinor = $Version.Split('.')[1];
 $vPatch = $Version.Split('.')[2];
-$versionOverride = "{ \""Version\"": \""$vMajor.$vMinor.$vPatch\"" }";
+$versionOverride = "{""Version"": ""$vMajor.$vMinor.$vPatch""}";
 
 $root = [System.IO.Path]::GetDirectoryName($PSCommandPath);
 
@@ -30,11 +30,12 @@ $content = $content `
     -replace '{{friendlyName}}', $vars.friendlyName `
     -replace '{{description}}', $vars.description;
 
-    $content = $content `
+$content = $content `
     -replace '"{{vMajor}}"', $vMajor `
     -replace '"{{vMinor}}"', $vMinor `
     -replace '"{{vPatch}}"', $vPatch;
 
+Write-Host $versionOverride
 Set-Content -Path '.\task.json' -Value $content -Encoding UTF8;
 
 Remove-Item './node_modules' -Recurse -Force -ErrorAction SilentlyContinue;

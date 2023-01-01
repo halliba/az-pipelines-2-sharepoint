@@ -54,9 +54,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/microsoft-graph-client@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@microsoft/microsoft-graph-client@npm:3.0.2"
+"@microsoft/microsoft-graph-client@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@microsoft/microsoft-graph-client@npm:3.0.4"
   dependencies:
     "@babel/runtime": ^7.12.5
     tslib: ^2.2.0
@@ -69,14 +69,14 @@ __metadata:
       optional: true
     stream-browserify:
       optional: true
-  checksum: 7c77126c74dc94b30d8d95014fb4805f7a86798765dfbcc60c41ce20221504edf2e639e88201dba8c40dbcb59fa856b63e9f8e59d0c9d46206d5e1aff46e0215
+  checksum: f09e0bd83f07586a5cbb1cdceae4a68e68ec9f178f04b524e0c7f9dfe1277ea5f46b9128d8ef10c8dd770d1512bac1f329645041999757c58b19c3d68125a59a
   languageName: node
   linkType: hard
 
-"@microsoft/microsoft-graph-types@npm:^2.23.0":
-  version: 2.23.0
-  resolution: "@microsoft/microsoft-graph-types@npm:2.23.0"
-  checksum: 17f449af323a73ea236c2a76d88e43feb67c67a54f0d2707c5a848839a87d1c8fc38c89d89085fee9f123879950b13200769b4bba4521c6829f3d3867c04d129
+"@microsoft/microsoft-graph-types@npm:^2.25.0":
+  version: 2.25.0
+  resolution: "@microsoft/microsoft-graph-types@npm:2.25.0"
+  checksum: b311385e0a51f827082af5a016f35b1d6cd4d861121e8767b3279ab1a17475977cddbbdcc208abdddf0f953fd6ce4634d3c302e317cf50af4cb6111385347b4f
   languageName: node
   linkType: hard
 
@@ -135,10 +135,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai@npm:^4.3.3":
-  version: 4.3.3
-  resolution: "@types/chai@npm:4.3.3"
-  checksum: 20cd094753e137cfc35939cae7f0ed78ecda7861e5c94704efab6979b9121a63807e9b631bdcf3a2792d6c6dba44050b13387262f9e63ebb040741c01c345f0a
+"@types/chai@npm:^4.3.4":
+  version: 4.3.4
+  resolution: "@types/chai@npm:4.3.4"
+  checksum: 571184967beb03bf64c4392a13a7d44e72da9af5a1e83077ff81c39cf59c0fda2a5c78d2005084601cf8f3d11726608574d8b5b4a0e3e9736792807afd926cd0
   languageName: node
   linkType: hard
 
@@ -160,13 +160,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/glob@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "@types/glob@npm:7.2.0"
+"@types/glob@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@types/glob@npm:8.0.0"
   dependencies:
     "@types/minimatch": "*"
     "@types/node": "*"
-  checksum: 6ae717fedfdfdad25f3d5a568323926c64f52ef35897bcac8aca8e19bc50c0bd84630bbd063e5d52078b2137d8e7d3c26eabebd1a2f03ff350fff8a91e79fc19
+  checksum: 1817b05f5a8aed851d102a65b5e926d5c777bef927ea62b36d635860eef5364f2046bb5a692d135b6f2b28f34e4a9d44ade9396122c0845bcc7636d35f624747
   languageName: node
   linkType: hard
 
@@ -177,10 +177,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mocha@npm:^9.1.1":
-  version: 9.1.1
-  resolution: "@types/mocha@npm:9.1.1"
-  checksum: 516077c0acd9806dc78317f88aaac0df5aaf0bdc2f63dfdadeabdf0b0137953b6ca65472e6ff7c30bc93ce4e0ae76eae70e8d46764b9a8eae4877a928b6ef49a
+"@types/mocha@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "@types/mocha@npm:10.0.1"
+  checksum: 224ea9fce7b1734ccdb9aa99a622d902a538ce1847bca7fd22c5fb38adcf3ed536f50f48f587085db988a4bb3c2eb68f4b98e1cd6a38bc5547bd3bbbedc54495
   languageName: node
   linkType: hard
 
@@ -209,13 +209,6 @@ __metadata:
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 7fd6f9c25053e9b5bb6bc9f9f76c1d89e6c04f7707a7ba0e44cc01f17ef5284adb82f230f542c2d5557d69407c9a40f0f3515e8319afd14e1e16b5543ac6cdba
-  languageName: node
-  linkType: hard
-
-"@ungap/promise-all-settled@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@ungap/promise-all-settled@npm:1.1.2"
-  checksum: 08d37fdfa23a6fe8139f1305313562ebad973f3fac01bcce2773b2bda5bcb0146dfdcf3cb6a722cf0a5f2ca0bc56a827eac8f1e7b3beddc548f654addf1fc34c
   languageName: node
   linkType: hard
 
@@ -357,18 +350,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azure-pipelines-task-lib@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "azure-pipelines-task-lib@npm:3.3.1"
+"azure-pipelines-task-lib@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "azure-pipelines-task-lib@npm:4.1.0"
   dependencies:
     minimatch: 3.0.5
-    mockery: ^1.7.0
+    mockery: ^2.1.0
     q: ^1.5.1
     semver: ^5.1.0
     shelljs: ^0.8.5
     sync-request: 6.1.0
     uuid: ^3.0.1
-  checksum: 62b0741784543fe1d10e5b293709692841aeefa28dcdffdf09afc2a22e4d01f7dcd2877ba0c0aa60a676781154b56f543a70d6600788f1a069264988db932bc6
+  checksum: 7eab5e651abefefbf81a1e889905cc63f881cbb9be6b35c0a6ae763af1531c0ddfb64e1d2d6d1b2c10339020dd8dfd1f13d8d5c40eaefcdf6c7319a1e1f693f4
   languageName: node
   linkType: hard
 
@@ -432,20 +425,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "buildandreleasetask@workspace:."
   dependencies:
-    "@microsoft/microsoft-graph-client": ^3.0.2
-    "@microsoft/microsoft-graph-types": ^2.23.0
-    "@types/chai": ^4.3.3
-    "@types/glob": ^7.2.0
-    "@types/mocha": ^9.1.1
+    "@microsoft/microsoft-graph-client": ^3.0.4
+    "@microsoft/microsoft-graph-types": ^2.25.0
+    "@types/chai": ^4.3.4
+    "@types/glob": ^8.0.0
+    "@types/mocha": ^10.0.1
     "@types/node": ^10.17.60
-    azure-pipelines-task-lib: ^3.3.1
-    chai: ^4.3.6
+    azure-pipelines-task-lib: ^4.1.0
+    chai: ^4.3.7
     cross-fetch: ^3.1.5
-    dotenv: ^16.0.1
+    dotenv: ^16.0.3
     glob: ^8.0.3
-    mocha: ^10.0.0
+    mocha: ^10.2.0
     ts-node: ^10.9.1
-    typescript: ^4.7.4
+    typescript: ^4.9.4
   languageName: unknown
   linkType: soft
 
@@ -499,18 +492,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chai@npm:^4.3.6":
-  version: 4.3.6
-  resolution: "chai@npm:4.3.6"
+"chai@npm:^4.3.7":
+  version: 4.3.7
+  resolution: "chai@npm:4.3.7"
   dependencies:
     assertion-error: ^1.1.0
     check-error: ^1.0.2
-    deep-eql: ^3.0.1
+    deep-eql: ^4.1.2
     get-func-name: ^2.0.0
     loupe: ^2.3.1
     pathval: ^1.1.1
     type-detect: ^4.0.5
-  checksum: acff93fd537f96d4a4d62dd83810285dffcfccb5089e1bf2a1205b28ec82d93dff551368722893cf85004282df10ee68802737c33c90c5493957ed449ed7ce71
+  checksum: 0bba7d267848015246a66995f044ce3f0ebc35e530da3cbdf171db744e14cbe301ab913a8d07caf7952b430257ccbb1a4a983c570a7c5748dc537897e5131f7c
   languageName: node
   linkType: hard
 
@@ -677,12 +670,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deep-eql@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "deep-eql@npm:3.0.1"
+"deep-eql@npm:^4.1.2":
+  version: 4.1.3
+  resolution: "deep-eql@npm:4.1.3"
   dependencies:
     type-detect: ^4.0.0
-  checksum: 4f4c9fb79eb994fb6e81d4aa8b063adc40c00f831588aa65e20857d5d52f15fb23034a6576ecf886f7ff6222d5ae42e71e9b7d57113e0715b1df7ea1e812b125
+  checksum: 7f6d30cb41c713973dc07eaadded848b2ab0b835e518a88b91bea72f34e08c4c71d167a722a6f302d3a6108f05afd8e6d7650689a84d5d29ec7fe6220420397f
   languageName: node
   linkType: hard
 
@@ -721,10 +714,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "dotenv@npm:16.0.1"
-  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
+"dotenv@npm:^16.0.3":
+  version: 16.0.3
+  resolution: "dotenv@npm:16.0.3"
+  checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
   languageName: node
   linkType: hard
 
@@ -1421,11 +1414,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mocha@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "mocha@npm:10.0.0"
+"mocha@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "mocha@npm:10.2.0"
   dependencies:
-    "@ungap/promise-all-settled": 1.1.2
     ansi-colors: 4.1.1
     browser-stdout: 1.3.1
     chokidar: 3.5.3
@@ -1450,14 +1442,14 @@ __metadata:
   bin:
     _mocha: bin/_mocha
     mocha: bin/mocha.js
-  checksum: ba49ddcf8015a467e744b06c396aab361b1281302e38e7c1269af25ba51ff9ab681a9c36e9046bb7491e751cd7d5ce85e276a00ce7e204f96b2c418e4595edfe
+  checksum: 406c45eab122ffd6ea2003c2f108b2bc35ba036225eee78e0c784b6fa2c7f34e2b13f1dbacef55a4fdf523255d76e4f22d1b5aacda2394bd11666febec17c719
   languageName: node
   linkType: hard
 
-"mockery@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "mockery@npm:1.7.0"
-  checksum: 76cc7dc2b998b634e05b06827458c022ac1267229b8be302cdcf6c2fd9c0b7989b495c3f0c8e53418a186b9c54252da1660f883e37a98a064c9a7ebeff3e4d54
+"mockery@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "mockery@npm:2.1.0"
+  checksum: 2454348d891fc8a6f2ff8d60776372461b8a129e1feb2ee19052190add2a28216b91a28c8403040c52ce1e7ec337fb03387f31ecd644af3edcc325ec80da9bcc
   languageName: node
   linkType: hard
 
@@ -2123,23 +2115,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.7.4":
-  version: 4.7.4
-  resolution: "typescript@npm:4.7.4"
+"typescript@npm:^4.9.4":
+  version: 4.9.4
+  resolution: "typescript@npm:4.9.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
+  checksum: e782fb9e0031cb258a80000f6c13530288c6d63f1177ed43f770533fdc15740d271554cdae86701c1dd2c83b082cea808b07e97fd68b38a172a83dbf9e0d0ef9
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
-  version: 4.7.4
-  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"
+"typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
+  version: 4.9.4
+  resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=f456af"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
+  checksum: 37f6e2c3c5e2aa5934b85b0fddbf32eeac8b1bacf3a5b51d01946936d03f5377fe86255d4e5a4ae628fd0cd553386355ad362c57f13b4635064400f3e8e05b9d
   languageName: node
   linkType: hard
 
