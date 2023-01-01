@@ -34,8 +34,7 @@ Register a new application in your Azure AD tenant: (For more info, refer to the
 
 ## Parameters
 
-**General**
-
+### **General**
 - **driveId**: SharePoint Online drive ID or URL  
 *(required)*  
 This parameter can hold one of 2 values:
@@ -45,17 +44,19 @@ This parameter can hold one of 2 values:
 - **targetFolder**: Target folder  
 *(optional, default=none)*  
 This is the target folder relative to the target drive. To copy files to the root of the target drive, leave this parameter empty. You can also use variables here, e.g.:  
-`/build-files/$(Build.BuildID)`
+`/build-files/$(Build.BuildID)`  
+The target folder will be created if it does not exist.  
 - **sourceFolder**: Source folder  
 *(optional, default=none)*  
-The source folder where the task is executed. This acts as a root directory for the `contents` parameter. Leave this parameter empty to use the current working directory of the pipeline.
-- **contents**: Contents to be copied    
+The source folder where the task is executed. This acts as a root directory for the `contents` parameter. Leave this parameter empty to use the current working directory of the pipeline.  
+**Important**: If you want to copy files outside of the current agent working directory, you must use this parameter to specifiy the new root directory.
+- **contents**: Contents to be copied  
 *(required)*  
 Use this parameter to specifiy which files should be uploaded.  
 `**` will upload all files recursively.  
 `build-files/**/*.txt` will copy only txt-files recursively unter `build-files` 
 
-#### **Authentication**
+### **Authentication**
 These parameters can be found at the application registration page in Azure AD. [Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
 - **tenantId**: AzureAD tenant ID  
 *(required)*
@@ -64,7 +65,7 @@ These parameters can be found at the application registration page in Azure AD. 
 - **clientSecret**: AzureAD client secret  
 *(required)*
 
-#### **Advanced**
+### **Advanced**
 - **conflictBehaviour**: File conflict behaviour  
 *(optional, default: fail)*  
 Specifies how the task should handle a file where the target file already exists. There are 3 different options:  
@@ -84,7 +85,9 @@ If set to true, all files will be copied to the target folder without retaining 
 *(optional, default: false)*  
 If set to true, the task will fail if no matching files are found under the source folder.
 
-## Sample YAML config file
+## Sample YAML config files
+### Basic example: copy files from the agent working directory / repository
+*Parameter `source` is left blank to use the current working directory. This copies all files from the dist folder in the current working dir.*
 ```yaml
 steps:
 - task: halliba.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint@0
@@ -95,8 +98,29 @@ steps:
     clientSecret: '1234567890abcdefghijABCDEFGHIJ1234567890'
     driveId: 'https://contoso.sharepoint.com/sites/some-project/Shared%20Documents'
     targetFolder: '/build-files/$(Build.BuildId)/'
+    contents: 'dist/**'
+```
+
+### Copy files from the artifact staging directory
+```yaml
+steps:
+- task: halliba.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint@0
+  displayName: 'Upload files to SharePoint'
+  inputs:
+    ...
     source: '$(Build.ArtifactStagingDirectory)'
     contents: '/bin/**/*.dll'
+```
+
+### Copy files from ouside the working directory / repository
+```yaml
+steps:
+- task: halliba.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint.az-pipelines-2-sharepoint@0
+  displayName: 'Upload files to SharePoint'
+  inputs:
+    ...
+    source: '/var/some-folder/' #or 'D:\some-folder' for Windows
+    contents: '**/*.log'
 ```
 
 ## Known Issues

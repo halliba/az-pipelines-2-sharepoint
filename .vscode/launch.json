@@ -12,10 +12,10 @@
                 "<node_internals>/**"
             ],
             "envFile": "${workspaceFolder}/buildAndReleaseTask/.env",
-            "program": "${workspaceFolder}\\buildAndReleaseTask\\dist\\index.js",
+            "program": "${workspaceFolder}/buildAndReleaseTask/dist/src/index.js",
             "preLaunchTask": "npm: build - buildAndReleaseTask",
             "outFiles": [
-                "${workspaceFolder}/buildAndReleaseTask/dist/*.js"
+                "${workspaceFolder}/buildAndReleaseTask/dist/src/*.js"
             ]
         }
     ]
