@@ -39,6 +39,7 @@ Write-Host $versionOverride
 Set-Content -Path '.\task.json' -Value $content -Encoding UTF8;
 
 Remove-Item './node_modules' -Recurse -Force -ErrorAction SilentlyContinue;
+Remove-Item './dist' -Recurse -Force -ErrorAction SilentlyContinue;
 yarn install
 yarn build
 

@@ -4,7 +4,7 @@ import glob from 'glob';
 import path from 'path';
 import { TaskInputs, readInputs } from './task-inputs';
 import { validateDrive } from './drive-utils';
-import { consoleLogger, ILogger, logProgress } from './logger';
+import { azPipelinesLogger, ILogger, logProgress } from './logger';
 
 function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<string[]> {
     return new Promise<string[]>(
@@ -29,13 +29,12 @@ async function processFilesAsync(uploader: Uploader, files: string[], inputs: Ta
     const fileCount = files.length;
     if (fileCount === 0) return;
     
-    logger.info(`Copying files to ${inputs.targetFolder}'`);
+    logger.info(`Copying files to '${inputs.targetFolder}'`);
 
     for (let i = 0; i < fileCount; i++) {
         const localRelativeFilePath = files[i];
 
         const localAbsoluteFilePath = path.join(inputs.sourceFolder, localRelativeFilePath);
-        const test = path.join('', localRelativeFilePath);
 
         let remoteRelativePath: string;
         if (inputs.flattenFolders) {
@@ -58,12 +57,12 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
     result: TaskResult;
     message?: string;
 }> {
-
-    if(!logger) logger = consoleLogger();
+    if(!logger) logger = azPipelinesLogger();
     if(!inputs) inputs = readInputs();
 
     const files = await getSourceFilesAsync(inputs.sourceFolder, inputs.contents);
     logger.info(`Found ${files.length} files in '${inputs.sourceFolder}'.`);
+    logger.debug(`Files: ${JSON.stringify(files)}`);
 
     if(inputs.failOnEmptySource && files.length === 0) {
         return { result: TaskResult.Failed, message: 'No files found in source folder.' };
@@ -91,6 +90,8 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
     }
 
     await processFilesAsync(uploader, files, inputs, logger);
+
+    logger.debug('Done.');
     return { result: TaskResult.Succeeded };
 }
 

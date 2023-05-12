@@ -1,24 +1,28 @@
-import { warning, error } from 'azure-pipelines-task-lib/task';
+import { warning, error, debug } from 'azure-pipelines-task-lib/task';
 
 interface ILogger {
+    debug(message: string): void;
     info(message: string): void;
     error(message: string): void;
     warning(message: string): void;
 }
 
 const noLogger = (): ILogger => ({
+    debug: () => { },
     info: () => { },
     error: () => { },
     warning: () => { }
 });
 
 const consoleLogger = (): ILogger => ({
+    debug: console.debug,
     info: console.log,
     error: console.error,
     warning: console.warn
 });
 
 const azPipelinesLogger = (): ILogger => ({
+    debug: (s) => debug(s),
     info: (s) => console.log(s),
     error: (s) => error(s),
     warning: (s) => warning(s),

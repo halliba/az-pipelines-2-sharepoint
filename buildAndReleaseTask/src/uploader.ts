@@ -123,6 +123,11 @@ class Uploader {
             "deferCommit": fileSize === 0
         };
 
+        this._logger.debug(`Local file path: '${localFilePath}'.`);
+        this._logger.debug(`Remote folder path: '${remotePath}'.`);
+        this._logger.debug(`Remote file name: '${remoteFileName}'.`);
+        this._logger.debug(`Request url: '${requestUrl}'.`);
+
         const readStream = fs.createReadStream(localFilePath);
         const fileObject = new MicrosoftGraph.StreamUpload(readStream, remoteFileName, fileSize);
 

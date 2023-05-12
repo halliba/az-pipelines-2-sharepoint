@@ -16,7 +16,8 @@
             "preLaunchTask": "npm: build - buildAndReleaseTask",
             "outFiles": [
                 "${workspaceFolder}/buildAndReleaseTask/dist/src/*.js"
-            ]
+            ],
+            "outputCapture": "std",
         }
     ]
 }

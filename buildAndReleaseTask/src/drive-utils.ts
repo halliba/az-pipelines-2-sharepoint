@@ -36,6 +36,7 @@ async function validateDrive(driveId: string, client: MicrosoftGraph.Client, log
     }
 
     logger.info(`Found drive '${drive?.name}'.`);
+    logger.debug(`Drive: ${JSON.stringify(drive)}`);
     return drive.id;
 }
 
@@ -71,8 +72,7 @@ async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Prom
     }
 
     let drives: ODataResult<Drive[]>;
-    drives = await client.api(`sites/${encodedUrl}/drives?$select=id,name,webUrl`)
-    .get();
+    drives = await client.api(`sites/${encodedUrl}/drives?$select=id,name,webUrl`).get();
 
     const drive = drives.value.find(d => d.webUrl?.toLowerCase() == url.toLowerCase());
     if(!drive) {
