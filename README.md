@@ -108,7 +108,7 @@ steps:
   displayName: 'Upload files to SharePoint'
   inputs:
     ...
-    source: '$(Build.ArtifactStagingDirectory)'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)'
     contents: '/bin/**/*.dll'
 ```
 
@@ -119,7 +119,7 @@ steps:
   displayName: 'Upload files to SharePoint'
   inputs:
     ...
-    source: '/var/some-folder/' #or 'D:\some-folder' for Windows
+    sourceFolder: '/var/some-folder/' #or 'D:\some-folder' for Windows
     contents: '**/*.log'
 ```
 
