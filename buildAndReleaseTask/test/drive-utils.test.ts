@@ -1,3 +1,4 @@
+import { describe, before, it } from 'mocha'
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
 import * as assert from "assert";
 import { getDriveFromUrl, validateDrive } from "../src/drive-utils";

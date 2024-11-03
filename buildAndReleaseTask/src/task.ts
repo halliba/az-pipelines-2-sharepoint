@@ -1,28 +1,19 @@
 import { TaskResult } from 'azure-pipelines-task-lib/task';
 import Uploader from './uploader';
-import glob from 'glob';
+import { glob, GlobOptions } from 'glob';
 import path from 'path';
 import { TaskInputs, readInputs } from './task-inputs';
 import { validateDrive } from './drive-utils';
 import { azPipelinesLogger, ILogger, logProgress } from './logger';
 
-function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<string[]> {
-    return new Promise<string[]>(
-        (resolve, reject) => {
-            const options: glob.IOptions = {
-                cwd: sourceFolder,
-                nodir: true
-            };
-
-            glob(contents, options, (err, matches) => {
-                if (err) {
-                    reject(err);
-                }
-
-                resolve(matches);
-            });
-        }
-    );
+async function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<string[]> {
+    const options: GlobOptions = {
+        cwd: sourceFolder,
+        nodir: true
+    };
+    
+    var results = await glob(contents, options);
+    return results as string[];    
 }
 
 async function processFilesAsync(uploader: Uploader, files: string[], inputs: TaskInputs, logger: ILogger) {
