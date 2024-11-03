@@ -7,10 +7,10 @@
     "test": "mocha --config .mocharc.json"
   },
   "dependencies": {
+    "@azure/identity": "^4.5.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@microsoft/microsoft-graph-types": "^2.40.0",
     "azure-pipelines-task-lib": "^4.17.3",
-    "cross-fetch": "^4.0.0",
     "glob": "^11.0.0"
   },
   "devDependencies": {

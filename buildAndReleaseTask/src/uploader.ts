@@ -1,15 +1,10 @@
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
 import { DriveItem } from "@microsoft/microsoft-graph-types";
 import fs from 'fs';
-import fetch from 'cross-fetch';
 import { ConflictBehaviour } from "./task-inputs";
 import { ILogger, logProgress } from './logger';
-
-interface AadAuthToken {
-    token_type: "Bearer"
-    expires_in: number,
-    access_token: string
-}
+import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredentialAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials';
 
 interface UploaderAuthOptions {
     tenantId: string;
@@ -40,36 +35,22 @@ class Uploader {
         this._options.conflictBehaviour = conflictBehaviour;
     }
 
-    static getAccessTokenEndpoint(tenantId: string): string {
-        return `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
-    }
-
-    static async getAccessTokenAsync(authOptions: UploaderAuthOptions): Promise<AadAuthToken> {
-        const endpointUrl = this.getAccessTokenEndpoint(authOptions.tenantId);
-
-        const body = `client_id=${encodeURIComponent(authOptions.clientId)}`
-            + `&scope=${encodeURIComponent(this._defaults.aadScope)}`
-            + `&client_secret=${encodeURIComponent(authOptions.clientSecret)}`
-            + `&grant_type=client_credentials`;
-
-        var response = await fetch(endpointUrl, {
-            body: body,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-
-        var result = await response.json() as AadAuthToken;
-
-        return result;
-    }
-
-    static createClient(aadToken: AadAuthToken): MicrosoftGraph.Client {
+    static createClient(authOptions: UploaderAuthOptions): MicrosoftGraph.Client {
+        const credential = new ClientSecretCredential(
+            authOptions.tenantId,
+            authOptions.clientId,
+            authOptions.clientSecret
+        );
+        
+        const authProvider = new TokenCredentialAuthenticationProvider(
+            credential,
+            {
+                scopes: [this._defaults.aadScope],
+            },
+        );
+    
         const client = MicrosoftGraph.Client.initWithMiddleware({
-            authProvider: {
-                getAccessToken: () => Promise.resolve(aadToken.access_token)
-            }
+            authProvider: authProvider
         });
 
         return client;
@@ -80,8 +61,7 @@ class Uploader {
             return this._client;
         }
 
-        const aadToken = await Uploader.getAccessTokenAsync(this._options.auth);
-        const client = Uploader.createClient(aadToken);
+        const client = Uploader.createClient(this._options.auth);
 
         this._client = client;
         return client;

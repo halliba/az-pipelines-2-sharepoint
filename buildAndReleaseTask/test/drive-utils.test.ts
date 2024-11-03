@@ -2,7 +2,6 @@ import { describe, before, it } from 'mocha'
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
 import * as assert from "assert";
 import { getDriveFromUrl, validateDrive } from "../src/drive-utils";
-import 'cross-fetch/polyfill';
 import { consoleLogger, noLogger } from "../src/logger";
 import { getInput, getInputRequired } from "azure-pipelines-task-lib/task";
 import { getTestClientAsync, TestInputNames } from "./test-helpers";

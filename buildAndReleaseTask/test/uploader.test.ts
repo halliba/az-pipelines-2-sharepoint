@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import 'cross-fetch/polyfill';
 import Uploader from "../src/uploader";
 import { getInputRequired } from "azure-pipelines-task-lib";
 import { TaskInputNames } from "../src/task-inputs";

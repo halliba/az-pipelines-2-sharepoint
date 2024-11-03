@@ -11,12 +11,11 @@ const TestInputNames = {
 };
 
 async function getTestClientAsync(): Promise<Client> {
-    const aadToken = await Uploader.getAccessTokenAsync({
+    const client = Uploader.createClient({
         tenantId: getInputRequired(TaskInputNames.tenantId),
         clientId: getInputRequired(TaskInputNames.clientId),
-        clientSecret: getInputRequired(TaskInputNames.clientSecret),
+        clientSecret: getInputRequired(TaskInputNames.clientSecret)
     });
-    const client = Uploader.createClient(aadToken);
     return client;
 }
 

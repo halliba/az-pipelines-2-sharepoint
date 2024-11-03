@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import 'cross-fetch/polyfill';
 import { TaskResult } from "azure-pipelines-task-lib";
 import { readInputs } from "../src/task-inputs";
 import { runTaskAsync } from "../src/task";
