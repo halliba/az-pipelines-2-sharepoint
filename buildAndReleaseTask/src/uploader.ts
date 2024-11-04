@@ -1,27 +1,17 @@
 import * as MicrosoftGraph from "@microsoft/microsoft-graph-client"
 import { DriveItem } from "@microsoft/microsoft-graph-types";
 import fs from 'fs';
+import fetch from 'cross-fetch';
 import { ConflictBehaviour } from "./task-inputs";
 import { ILogger, logProgress } from './logger';
-import { ClientSecretCredential } from "@azure/identity";
-import { TokenCredentialAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials';
-
-interface UploaderAuthOptions {
-    tenantId: string;
-    clientId: string;
-    clientSecret: string;
-}
+import { AuthOptions, createClient } from "./auth";
 
 interface UploaderOptions {
-    auth: UploaderAuthOptions;
+    auth: AuthOptions;
     conflictBehaviour: ConflictBehaviour;
 }
 
 class Uploader {
-    private static _defaults = {
-        aadScope: 'https://graph.microsoft.com/.default'
-    };
-
     private _options: UploaderOptions;
     private _client?: MicrosoftGraph.Client;
     private _logger: ILogger;
@@ -35,33 +25,12 @@ class Uploader {
         this._options.conflictBehaviour = conflictBehaviour;
     }
 
-    static createClient(authOptions: UploaderAuthOptions): MicrosoftGraph.Client {
-        const credential = new ClientSecretCredential(
-            authOptions.tenantId,
-            authOptions.clientId,
-            authOptions.clientSecret
-        );
-        
-        const authProvider = new TokenCredentialAuthenticationProvider(
-            credential,
-            {
-                scopes: [this._defaults.aadScope],
-            },
-        );
-    
-        const client = MicrosoftGraph.Client.initWithMiddleware({
-            authProvider: authProvider
-        });
-
-        return client;
-    }
-
     async getClientAsync(): Promise<MicrosoftGraph.Client> {
         if (!!this._client) {
             return this._client;
         }
 
-        const client = Uploader.createClient(this._options.auth);
+        const client = createClient(this._options.auth);
 
         this._client = client;
         return client;

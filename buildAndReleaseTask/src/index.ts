@@ -1,3 +1,5 @@
+import 'cross-fetch/polyfill';
+
 import * as tl from 'azure-pipelines-task-lib/task';
 import { runTaskAsync } from './task';
 

@@ -11,13 +11,15 @@
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@microsoft/microsoft-graph-types": "^2.40.0",
     "azure-pipelines-task-lib": "^4.17.3",
-    "glob": "^11.0.0"
+    "cross-fetch": "^4.0.0",
+    "glob": "^8.0.3"
   },
   "devDependencies": {
     "@types/chai": "^5.0.1",
-    "@types/mocha": "^10.0.9",
-    "@types/node": "^22.8.7",
-    "chai": "^5.1.2",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.3.1",
+    "chai": "^4.3.7",
     "dotenv": "^16.4.5",
     "mocha": "^10.8.2",
     "ts-node": "^10.9.2",

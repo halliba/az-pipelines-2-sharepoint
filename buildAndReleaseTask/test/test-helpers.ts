@@ -1,7 +1,7 @@
 import { Client } from "@microsoft/microsoft-graph-client"
 import { getInputRequired } from "azure-pipelines-task-lib";
 import { TaskInputNames } from "../src/task-inputs";
-import Uploader from "../src/uploader";
+import { createClient } from "../src/auth";
 
 const TestInputNames = {
     rootUrl: "TESTS_rootUrl",
@@ -11,7 +11,7 @@ const TestInputNames = {
 };
 
 async function getTestClientAsync(): Promise<Client> {
-    const client = Uploader.createClient({
+    const client = createClient({
         tenantId: getInputRequired(TaskInputNames.tenantId),
         clientId: getInputRequired(TaskInputNames.clientId),
         clientSecret: getInputRequired(TaskInputNames.clientSecret)
