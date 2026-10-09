@@ -5,6 +5,7 @@ import fetch from 'cross-fetch';
 import { ConflictBehaviour } from "./task-inputs";
 import { ILogger, logProgress } from './logger';
 import { AuthOptions, createClient } from "./auth";
+import { driveItemUrl, folderChildrenUrl, joinDrivePath } from "./drive-paths";
 
 interface UploaderOptions {
     auth: AuthOptions;
@@ -37,15 +38,7 @@ class Uploader {
     }
 
     static constructFileUrl(driveId: string, fileName: string, path: string = '/'): string {
-        let pathComponents = path.split("/")
-            .concat(fileName.split("/"));
-
-        let encodedPath = pathComponents
-            .map((p) => encodeURIComponent(p))
-            .filter((p) => p !== '')
-            .join("/");
-
-        return `/drives/${driveId}/root:/${encodedPath}`;
+        return driveItemUrl(driveId, joinDrivePath(path, fileName));
     }
 
     async uploadFileAsync(localFilePath: string, driveId: string, remotePath: string, remoteFileName: string): Promise<MicrosoftGraph.UploadResult | null> {
@@ -93,11 +86,9 @@ class Uploader {
 
         const client = await this.getClientAsync();
 
-        const folderUrl = Uploader.constructFileUrl(driveId, '', remotePath);
-
         let result: any;
         try {
-            result = await client.api(`${folderUrl}:/children?$select=name,id,folder`)
+            result = await client.api(`${folderChildrenUrl(driveId, remotePath)}?$select=name,id,folder`)
                 .get();
         } catch (error: unknown) {
             if ((error as any).statusCode !== 404) {

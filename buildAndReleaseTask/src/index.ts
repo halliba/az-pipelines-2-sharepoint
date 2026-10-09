@@ -2,6 +2,7 @@ import 'cross-fetch/polyfill';
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import { runTaskAsync } from './task';
+import { describeError, formatError } from './errors';
 
 async function run() {
     try {
@@ -9,8 +10,13 @@ async function run() {
         tl.setResult(result.result, result.message ?? "");
     }
     catch (err: unknown) {
-        console.error(err);
-        tl.setResult(tl.TaskResult.Failed, (err as Error)?.message);
+        // Not console.error(err): it prints stream objects instead of the error and the full
+        // upload URL including its access token.
+        const description = await describeError(err);
+        if (description.details) {
+            tl.debug(description.details);
+        }
+        tl.setResult(tl.TaskResult.Failed, formatError(description));
     }
 }
 

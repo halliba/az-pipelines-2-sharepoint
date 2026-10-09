@@ -34,8 +34,24 @@ const getAccessTokenAsync = async (authOptions: AuthOptions): Promise<AadAuthTok
         }
     });
 
-    var aadToken = await response.json() as AadAuthToken;
-    return aadToken;
+    // On failure the endpoint answers { error, error_description } (e.g. AADSTS7000215 for a wrong
+    // secret); without this check Graph would only report an unparsable token.
+    const text = await response.text();
+    let aadToken: any;
+    try {
+        aadToken = JSON.parse(text);
+    } catch {
+        aadToken = undefined;
+    }
+
+    if(!response.ok || !aadToken?.access_token) {
+        const reason = aadToken?.error
+            ? `${aadToken.error}: ${aadToken.error_description ?? ''}`
+            : text.substring(0, 300);
+        throw new Error(`Token request for tenant '${authOptions.tenantId}' failed with HTTP ${response.status}. ${reason}`.trim());
+    }
+
+    return aadToken as AadAuthToken;
 }
 
 const getAuthProviderLegacy = (authOptions: AuthOptions): MicrosoftGraph.AuthenticationProvider => {

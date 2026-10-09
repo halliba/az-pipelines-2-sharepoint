@@ -21,6 +21,7 @@ async function validateDrive(driveId: string, client: MicrosoftGraph.Client, log
         throw new Error('Parameter driveId is required.');
     }
 
+    driveId = driveId.trim();
     logger.info(`Validating drive id / url: '${driveId}'.`);
 
     let drive: Drive;
@@ -50,8 +51,7 @@ async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Prom
     if(!url) throw new Error('Url is required');
     if(!client) throw new Error('Client is required');
 
-    // url must not end with a slash
-    if(url.endsWith("/")) url = url.substring(0, url.length - 1);
+    url = normalizeDriveUrl(url);
 
     if(!url.startsWith("https://")) throw new Error("Url must start with https://");
     const trimmedUrl = url.substring("https://".length);
@@ -82,7 +82,21 @@ async function getDriveFromUrl(url: string, client: MicrosoftGraph.Client): Prom
     return drive;
 }
 
+/**
+ * Collapses doubled slashes in the path and removes trailing ones. A URL built from variables
+ * such as '$(SiteUrl)/' + '/Library' otherwise makes Graph answer "does not represent a site".
+ * @param url The full url to the document library
+ * @returns The url without '//' in its path and without a trailing slash
+ */
+function normalizeDriveUrl(url: string): string {
+    const match = /^(https?:\/\/)(.*)$/i.exec(url.trim());
+    if(!match) return url.trim();
+
+    return match[1] + match[2].replace(/\/{2,}/g, '/').replace(/\/+$/, '');
+}
+
 export {
     validateDrive,
-    getDriveFromUrl
+    getDriveFromUrl,
+    normalizeDriveUrl
 };

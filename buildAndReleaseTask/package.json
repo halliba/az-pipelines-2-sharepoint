@@ -4,7 +4,8 @@
   "license": "AGPL-3.0-only",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --config .mocharc.json"
+    "test": "mocha --config .mocharc.json",
+    "test:unit": "mocha --config .mocharc.json \"test/unit/**/*.test.ts\""
   },
   "dependencies": {
     "@azure/identity": "^4.5.0",

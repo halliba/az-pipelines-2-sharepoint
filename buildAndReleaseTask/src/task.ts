@@ -4,6 +4,8 @@ import glob from 'glob';
 import path from 'path';
 import { TaskInputs, readInputs } from './task-inputs';
 import { validateDrive } from './drive-utils';
+import { joinDrivePath } from './drive-paths';
+import { ContextError, describeError, formatError } from './errors';
 import { azPipelinesLogger, ILogger, logProgress } from './logger';
 
 function getSourceFilesAsync(sourceFolder: string, contents: string): Promise<string[]> {
@@ -36,20 +38,21 @@ async function processFilesAsync(uploader: Uploader, files: string[], inputs: Ta
 
         const localAbsoluteFilePath = path.join(inputs.sourceFolder, localRelativeFilePath);
 
-        let remoteRelativePath: string;
-        if (inputs.flattenFolders) {
-            remoteRelativePath = '';
-        } else {
-            remoteRelativePath = path.dirname(localRelativeFilePath);
+        // Paths in the drive use '/' only; path.join would put '\' into them on Windows agents.
+        const localSegments = localRelativeFilePath.split(/[\\/]+/);
+        const remoteFileName = localSegments[localSegments.length - 1];
+        const remoteRelativePath = inputs.flattenFolders ? '' : joinDrivePath(...localSegments.slice(0, -1));
+        const remoteAbsolutePath = joinDrivePath(inputs.targetFolder, remoteRelativePath);
+        const remoteFilePath = joinDrivePath(remoteAbsolutePath, remoteFileName);
+
+        logProgress(logger, fileCount, i, `Copying '${localRelativeFilePath}' -> '${remoteFilePath}'`)
+
+        try {
+            await uploader.uploadFileAsync(localAbsoluteFilePath, inputs.driveId
+                , remoteAbsolutePath, remoteFileName);
+        } catch (error) {
+            throw new ContextError(`Uploading '${localRelativeFilePath}' to '${remoteFilePath}' failed`, error);
         }
-
-        const remoteFileName = path.basename(localRelativeFilePath);
-        const remoteAbsolutePath = path.join(inputs.targetFolder, remoteRelativePath);
-
-        logProgress(logger, fileCount, i, `Copying '${localRelativeFilePath}' -> '${path.join(remoteAbsolutePath, remoteFileName)}'`)
-
-        await uploader.uploadFileAsync(localAbsoluteFilePath, inputs.driveId
-            , remoteAbsolutePath, remoteFileName);
     }
 }
 
@@ -68,6 +71,10 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
         return { result: TaskResult.Failed, message: 'No files found in source folder.' };
     }
 
+    if(files.length === 0) {
+        logger.warning(`No files match '${inputs.contents}' in '${inputs.sourceFolder}'; nothing will be uploaded.`);
+    }
+
     const uploader = new Uploader({
         auth: {
             clientId: inputs.clientId,
@@ -81,12 +88,19 @@ async function runTaskAsync(inputs?: TaskInputs, logger?: ILogger): Promise<{
         const driveId = await validateDrive(inputs.driveId, await uploader.getClientAsync(), logger);
         inputs.driveId = driveId;
     } catch(error) {
-        logger.error((typeof error == "string") ? error : JSON.stringify(error));
-        return { result: TaskResult.Failed, message: 'Could not validate drive id.' };
+        const description = await describeError(new ContextError(`Could not validate drive '${inputs.driveId}'`, error));
+        if (description.details) {
+            logger.debug(description.details);
+        }
+        return { result: TaskResult.Failed, message: formatError(description) };
     }
 
     if (inputs.cleanTargetFolder) {
-        await uploader.cleanFolderAsync(inputs.driveId, inputs.targetFolder);
+        try {
+            await uploader.cleanFolderAsync(inputs.driveId, inputs.targetFolder);
+        } catch (error) {
+            throw new ContextError(`Cleaning target folder '${inputs.targetFolder}' failed`, error);
+        }
     }
 
     await processFilesAsync(uploader, files, inputs, logger);
