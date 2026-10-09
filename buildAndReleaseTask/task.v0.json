@@ -1,0 +1,19 @@
+{
+    "version": {
+        "Major": 0
+    },
+    "execution": {
+        "Node10": {
+            "target": "dist/src/index.js"
+        },
+        "Node16": {
+            "target": "dist/src/index.js"
+        },
+        "Node20_1": {
+            "target": "dist/src/index.js"
+        },
+        "Node24": {
+            "target": "dist/src/index.js"
+        }
+    }
+}

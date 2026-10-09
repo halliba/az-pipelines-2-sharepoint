@@ -66,7 +66,8 @@ const getAuthProvider = (authOptions: AuthOptions): MicrosoftGraph.Authenticatio
 
 export const createClient = (authOptions: AuthOptions): MicrosoftGraph.Client => {
     let authProvider;
-    if(nodeMajorVersion < 16) {
+    // @azure/identity 4.x requires Node 18+; the Node10 and Node16 handlers use the plain token request.
+    if(nodeMajorVersion < 18) {
         authProvider = getAuthProviderLegacy(authOptions);
     } else {
         authProvider = getAuthProvider(authOptions);
