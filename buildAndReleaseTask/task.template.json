@@ -99,6 +99,19 @@
             "groupName": "advanced"
         },
         {
+            "name": "maxRetries",
+            "type": "string",
+            "label": "Retries on temporary errors",
+            "defaultValue": "5",
+            "helpMarkDown": "How often a request is repeated when SharePoint or Microsoft Graph report a temporary error (HTTP 408, 429, 500, 502, 503, 504) or the connection drops. Waits as long as the service asks for (Retry-After), otherwise 2, 4, 8, 16, 32 seconds. `0` disables retries; at most 20.",
+            "required": false,
+            "groupName": "advanced",
+            "validation": {
+                "expression": "isMatch(value, '^\\s*([0-9]|1[0-9]|20)?\\s*$', 'IgnoreCase')",
+                "message": "Enter a whole number from 0 to 20."
+            }
+        },
+        {
             "name": "cleanTargetFolder",
             "type": "boolean",
             "label": "Clean Target Folder",
@@ -125,14 +138,5 @@
             "required": true,
             "groupName": "advanced"
         }
-    ],
-    "minimumAgentVersion": "3.232.1",
-    "execution": {
-        "Node10": {
-            "target": "dist/src/index.js"
-        },
-        "Node20_1": {
-            "target": "dist/src/index.js"
-        }
-    }
+    ]
 }

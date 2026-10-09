@@ -26,22 +26,7 @@
     },
     "files": [
         {
-            "path": "buildAndReleaseTask/dist/"
-        },
-        {
-            "path": "buildAndReleaseTask/node_modules/"
-        },
-        {
-            "path": "buildAndReleaseTask/task.json"
-        },
-        {
-            "path": "buildAndReleaseTask/package.json"
-        },
-        {
-            "path": "buildAndReleaseTask/yarn.lock"
-        },
-        {
-            "path": "buildAndReleaseTask/icon.png"
+            "path": "buildAndReleaseTask"
         },
         {
             "path": "images/icon_128.png",

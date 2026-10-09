@@ -75,7 +75,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/identity@npm:^4.5.0":
+"@azure/identity@npm:4.5.0":
   version: 4.5.0
   resolution: "@azure/identity@npm:4.5.0"
   dependencies:
@@ -533,7 +533,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "buildandreleasetask@workspace:."
   dependencies:
-    "@azure/identity": "npm:^4.5.0"
+    "@azure/identity": "npm:4.5.0"
     "@microsoft/microsoft-graph-client": "npm:^3.0.7"
     "@microsoft/microsoft-graph-types": "npm:^2.40.0"
     "@types/chai": "npm:^5.0.1"
@@ -545,6 +545,7 @@ __metadata:
     cross-fetch: "npm:^4.0.0"
     dotenv: "npm:^16.4.5"
     glob: "npm:^8.0.3"
+    https-proxy-agent: "npm:^5.0.1"
     mocha: "npm:^10.8.2"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.6.3"
@@ -1057,7 +1058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:^5.0.0":
+"https-proxy-agent@npm:^5.0.0, https-proxy-agent@npm:^5.0.1":
   version: 5.0.1
   resolution: "https-proxy-agent@npm:5.0.1"
   dependencies:

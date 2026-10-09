@@ -85,6 +85,13 @@ If set to true, all files will be copied to the target folder without retaining 
 *(optional, default: false)*  
 If set to true, the task will fail if no matching files are found under the source folder.
 
+- **maxRetries**: Retries on temporary errors  
+*(optional, default: 5)*  
+How often a request is repeated when SharePoint or Microsoft Graph report a temporary error (HTTP 408, 429, 500, 502, 503, 504) or the connection drops. This includes every chunk of an upload. The task waits as long as the service asks for (`Retry-After`), otherwise 2, 4, 8, 16, 32 seconds. `0` disables retries; at most 20.
+
+### **Proxy**
+The task uses the proxy configured for the agent (`Agent.ProxyUrl`, including credentials and the bypass list) for all requests to Microsoft Entra ID, Microsoft Graph and SharePoint.
+
 ## Sample YAML config files
 ### Basic example: copy files from the agent working directory / repository
 *Parameter `source` is left blank to use the current working directory. This copies all files from the dist folder in the current working dir.*

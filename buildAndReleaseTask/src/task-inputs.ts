@@ -1,4 +1,5 @@
 import { getBoolInput, getInput, getInputRequired } from "azure-pipelines-task-lib";
+import { defaultRetryOptions } from "./retry";
 
 type ConflictBehaviour = "fail" | "replace" | "rename";
 
@@ -14,6 +15,7 @@ interface TaskInputs {
     cleanTargetFolder: boolean;
     flattenFolders: boolean;
     failOnEmptySource: boolean;
+    maxRetries: number;
 }
 
 const TaskInputNames = {
@@ -27,7 +29,8 @@ const TaskInputNames = {
     conflictBehaviour: 'conflictBehaviour',
     cleanTargetFolder: 'cleanTargetFolder',
     flattenFolders: 'flattenFolders',
-    failOnEmptySource: 'failOnEmptySource'
+    failOnEmptySource: 'failOnEmptySource',
+    maxRetries: 'maxRetries'
 };
 
 function readInputs(): TaskInputs {
@@ -42,13 +45,30 @@ function readInputs(): TaskInputs {
         conflictBehaviour: getInputRequired(TaskInputNames.conflictBehaviour) as ConflictBehaviour,
         cleanTargetFolder: getBoolInput(TaskInputNames.cleanTargetFolder, true),
         flattenFolders: getBoolInput(TaskInputNames.flattenFolders, true),
-        failOnEmptySource: getBoolInput(TaskInputNames.failOnEmptySource, false) ?? false
+        failOnEmptySource: getBoolInput(TaskInputNames.failOnEmptySource, false) ?? false,
+        maxRetries: parseMaxRetries(getInput(TaskInputNames.maxRetries, false))
     };
+}
+
+/**
+ * Empty or missing (e.g. in definitions saved before the input existed) means the default.
+ */
+function parseMaxRetries(value: string | undefined): number {
+    if (value === undefined || value.trim() === '') {
+        return defaultRetryOptions.maxRetries;
+    }
+
+    const retries = Number(value.trim());
+    if (!Number.isInteger(retries) || retries < 0 || retries > 20) {
+        throw new Error(`Input '${TaskInputNames.maxRetries}' must be a whole number from 0 to 20, got '${value}'.`);
+    }
+    return retries;
 }
 
 export {
     ConflictBehaviour,
     TaskInputs,
     TaskInputNames,
+    parseMaxRetries,
     readInputs
 };

@@ -4,15 +4,17 @@
   "license": "AGPL-3.0-only",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --config .mocharc.json"
+    "test": "mocha --config .mocharc.json",
+    "test:unit": "mocha --config .mocharc.json \"test/unit/**/*.test.ts\""
   },
   "dependencies": {
-    "@azure/identity": "^4.5.0",
+    "@azure/identity": "4.5.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@microsoft/microsoft-graph-types": "^2.40.0",
     "azure-pipelines-task-lib": "^4.17.3",
     "cross-fetch": "^4.0.0",
-    "glob": "^8.0.3"
+    "glob": "^8.0.3",
+    "https-proxy-agent": "^5.0.1"
   },
   "devDependencies": {
     "@types/chai": "^5.0.1",
